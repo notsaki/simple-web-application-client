@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "CommonJS",
+    "jsx": "react",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "Node",
+    "experimentalDecorators": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noEmit": true,
+    "allowJs": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "forceConsistentCasingInFileNames": false,
+    "typeRoots" : ["node_modules/@types", "src/"]
+  },
+  "include": ["src"]
+}
