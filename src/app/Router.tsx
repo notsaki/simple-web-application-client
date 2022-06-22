@@ -14,7 +14,7 @@ export default function Router(): JSX.Element {
 				<Route path={"/"} element={<HomePage />} />
 				<Route path={"/register"} element={<RegisterUserPage />} />
 				<Route path={"/users"} element={<DisplayUsersPage />} />
-				<Route path={"user/:userId"} element={<UserDetailsPage />} />
+				<Route path={"/user/:userId"} element={<UserDetailsPage />} />
 				<Route path={"*"} element={<NotFoundPage />} />
 			</Routes>
 		</BrowserRouter>

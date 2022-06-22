@@ -1,0 +1,37 @@
+$white-scale: 1%;
+$default-active-scale: -1;
+$default-scale: 10%;
+
+@function active-scale($scale: $default-scale, $active-scale: $default-active-scale) {
+  @if $active-scale == -1 and $scale >= 0 {
+    $active-scale: $scale + 5%;
+  }
+
+  @return $active-scale;
+}
+
+@mixin clickable(
+  $prop,
+  $colour,
+  $scale: $default-scale,
+  $active-scale: $default-active-scale,
+  $trans-time: 0.25s
+) {
+  transition: $trans-time;
+
+  $active-scale: active-scale($active-scale, $active-scale);
+
+  @if $scale >= 0 {
+    &:hover {
+      #{$prop}: darken($colour, $scale);
+      transition: $trans-time;
+    }
+  }
+
+  @if $active-scale >= 0 {
+    &:active {
+      #{$prop}: darken($colour, $active-scale);
+      transition: $trans-time;
+    }
+  }
+}

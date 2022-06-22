@@ -23,7 +23,7 @@ export default function DisplayUsersPage(): JSX.Element {
 				</div>
 				{users.map(user => (
 					<div key={user.id}>
-						<Link to={`/user/${user.id}`}>
+						<Link to={`/user/${user.id}`} target="_blank" rel="noopener noreferrer">
 								<span>{user.name}</span>
 								<span>{user.surname}</span>
 					</Link>
