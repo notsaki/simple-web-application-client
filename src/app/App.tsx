@@ -1,9 +1,8 @@
 import React from "react";
+import Router from "./Router";
 
 export default function App(): JSX.Element {
 	return (
-		<div>
-			<span>Test</span>
-		</div>
-	)
+		<Router />
+	);
 }
