@@ -1,12 +1,12 @@
 import {UserDao} from "../domain/dao";
-import {User, UserDto} from "../domain/entities/user.entity";
+import {User, UserDto, UserListItemDto} from "../domain/entities/user.entity";
 import HttpClient from "../utils/http-client";
 
 export default class UserDaoImpl implements UserDao {
 
 	public constructor(private httpClient: HttpClient) {}
 
-	public findAll(): Promise<User[]> {
+	public findAll(): Promise<UserListItemDto[]> {
 		return this.httpClient.get(["/user"]);
 	}
 
@@ -16,5 +16,9 @@ export default class UserDaoImpl implements UserDao {
 
 	public save(user: UserDto): Promise<User> {
 		return this.httpClient.post(["/user"], user);
+	}
+
+	public findById(id: number): Promise<User> {
+		return this.httpClient.get(["/user/{}", id.toString()]);
 	}
 }

@@ -4,23 +4,23 @@ import DateSelector from "../components/DateSelector";
 import UserDaoImpl from "../dao/user.dao";
 import HttpClient from "../utils/http-client";
 import {UserDto} from "../domain/entities/user.entity";
+import {useDependencyContext} from "../dependency.context";
 
 export default function RegisterUserPage(): JSX.Element {
-	const userDao = new UserDaoImpl(new HttpClient());
+	const userDao = useDependencyContext().daos.userDao;
 
 	const [name, setName] = useState<string>("");
 	const [surname, serSurname] = useState<string>("");
 	const [gender, setGender] = useState<Gender>(Gender.MALE);
-	const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date(Date.now()));
+	const [birthdate, setBirthdate] = useState<Date>(new Date(Date.now()));
 	const [workAddress, setWorkAddress] = useState<string >("");
 	const [homeAddress, setHomeAddress] = useState<string>("");
 
 	const [message, setMessage] = useState<string | null>("");
 
 	function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-		console.log("Sending request.");
 		e.preventDefault();
-		const user: UserDto = { name, surname, gender, dateOfBirth, workAddress, homeAddress };
+		const user: UserDto = { name, surname, gender, birthdate: birthdate, workAddress, homeAddress };
 		userDao.save(user)
 			.then(result => setMessage(JSON.stringify(result)))
 			.catch(e => setMessage(JSON.stringify(e.message)));
@@ -50,8 +50,8 @@ export default function RegisterUserPage(): JSX.Element {
 					</select>
 				</div>
 				<div>
-					<label htmlFor={"dateOfBirth"}>Date of Birth</label>
-					<DateSelector value={dateOfBirth} onChange={date => setDateOfBirth(date)} />
+					<label htmlFor={"birthdate"}>Date of Birth</label>
+					<DateSelector value={birthdate} onChange={date => setBirthdate(date)} />
 				</div>
 				<div>
 					<label htmlFor={"workAddress"}>Work Address</label>
