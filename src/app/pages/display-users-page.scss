@@ -1,0 +1,15 @@
+@import "src/app/styles/effects";
+
+#displayUsersPage {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+
+  table {
+    tr:not(:first-child) {
+      @include clickable("background", white, 1%, 2%);
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+}

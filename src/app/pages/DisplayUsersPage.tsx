@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from "react";
+import { useNavigate } from "react-router";
 import {useDependencyContext} from "../dependency.context";
 import {UserListItemDto} from "../domain/entities/user.entity";
-import {Link} from "react-router-dom";
+import "./display-users-page.scss";
 
 export default function DisplayUsersPage(): JSX.Element {
+	const navigate = useNavigate();
+
 	const userDao = useDependencyContext().daos.userDao;
 	const [users, setUsers] = useState<UserListItemDto[]>([]);
 
@@ -14,22 +17,22 @@ export default function DisplayUsersPage(): JSX.Element {
 	}, []);
 
 	return (
-		<div>
-			<span>Display Users Page</span>
-			<div>
-				<div>
-					<span>Name</span>
-					<span>Surname</span>
-				</div>
+		<div id={"displayUsersPage"}>
+			<h3>Display Users Page</h3>
+			<table>
+				<tbody>
+				<tr>
+					<th>Name</th>
+					<th>Surname</th>
+				</tr>
 				{users.map(user => (
-					<div key={user.id}>
-						<Link to={`/user/${user.id}`} target="_blank" rel="noopener noreferrer">
-								<span>{user.name}</span>
-								<span>{user.surname}</span>
-					</Link>
-					</div>
+					<tr key={user.id} onClick={() => navigate(`/user/${user.id}`)}>
+						<td>{user.name}</td>
+						<td>{user.surname}</td>
+					</tr>
 				))}
-			</div>
+				</tbody>
+			</table>
 		</div>
 	);
 }

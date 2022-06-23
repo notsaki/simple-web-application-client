@@ -15,7 +15,7 @@ $default-scale: 10%;
   $colour,
   $scale: $default-scale,
   $active-scale: $default-active-scale,
-  $trans-time: 0.25s
+  $trans-time: 0.25s,
 ) {
   transition: $trans-time;
 
