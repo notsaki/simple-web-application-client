@@ -1,0 +1,14 @@
+@import "src/app/styles/effects";
+@import "src/app/styles/consts";
+
+.button {
+  @include clickable("background", $primary-colour, 2%, 4%);
+
+  padding: 10px 40px;
+  background: $primary-colour;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  border: unset;
+  border-radius: $border-radius;
+}

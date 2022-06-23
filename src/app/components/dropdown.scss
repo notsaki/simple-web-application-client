@@ -1,0 +1,36 @@
+@import "src/app/styles/consts";
+@import "src/app/styles/effects";
+
+.dropdown {
+  .dropdown__control {
+    @include clickable("background", white, 2%, 4%);
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      border-color: $primary-colour !important;
+    }
+  }
+
+  * {
+    font-family: $font-family;
+  }
+
+  .dropdown__control--is-focused {
+    border-color: $primary-colour;
+  }
+
+  .dropdown__menu {
+    .dropdown__option {
+      cursor: pointer;
+    }
+
+    .dropdown__option--is-selected {
+      background: $primary-colour !important;
+    }
+
+    .dropdown__option--is-focused {
+      background: lighten($primary-colour, 40%);
+    }
+  }
+}

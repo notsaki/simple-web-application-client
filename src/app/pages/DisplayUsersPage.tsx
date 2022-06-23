@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useDependencyContext} from "../dependency.context";
-import {User, UserListItemDto} from "../domain/entities/user.entity";
-import {Link, useNavigate} from "react-router-dom";
+import {UserListItemDto} from "../domain/entities/user.entity";
+import {Link} from "react-router-dom";
 
 export default function DisplayUsersPage(): JSX.Element {
 	const userDao = useDependencyContext().daos.userDao;

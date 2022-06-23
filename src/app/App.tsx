@@ -7,7 +7,9 @@ import "./styles/global.scss";
 export default function App(): JSX.Element {
 	return (
 		<DependencyProvider value={dependencyContextFactory("impl")}>
-			<Router />
+			<div id={"app"}>
+				<Router />
+			</div>
 		</DependencyProvider>
 	);
 }

@@ -6,8 +6,8 @@ export interface User {
 	surname: string;
 	gender: Gender;
 	birthdate: Date;
-	workAddress: string;
-	homeAddress: string;
+	workAddress: string | null;
+	homeAddress: string | null;
 }
 
 export interface UserDto extends Omit<User, "id"> {}

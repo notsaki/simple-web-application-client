@@ -1,18 +1,19 @@
 import React, {useEffect, useRef, useState} from "react";
 import DatePicker from "sassy-datepicker";
 import useEventListener from "../hooks/useEventListener";
+import "./date-selector.scss";
 
 interface DatePickerProps {
 	value: Date;
-	onChange(date: Date);
+	onChange?(date: Date);
 }
 
 export default function DateSelector(props: DatePickerProps): JSX.Element {
 	const [selectorOpen, setSelectorOpen] = useState(false);
-	const componentRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const dateSelectorRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
 	useEventListener("click", e => {
-		if(!componentRef.current.contains(e.target)) setSelectorOpen(false);
+		if(!dateSelectorRef.current || !dateSelectorRef.current.contains(e.target)) setSelectorOpen(false);
 	});
 
 	useEffect(() => {
@@ -20,9 +21,18 @@ export default function DateSelector(props: DatePickerProps): JSX.Element {
 	}, [props.value]);
 
 	return (
-		<div ref={componentRef}>
-			<input value={props.value.toLocaleDateString()} readOnly={true} onClick={() => setSelectorOpen(true)} />
-			{selectorOpen && <DatePicker onChange={date => props.onChange(date)} />}
+		<div className={"date-picker"} ref={dateSelectorRef}>
+			<input
+				value={props.value.toLocaleDateString()}
+				readOnly={true}
+				onClick={() => setSelectorOpen(!selectorOpen)}
+			/>
+			{selectorOpen && (
+				<DatePicker
+					onChange={date => props.onChange && props.onChange(date)}
+					selected={props.value}
+				/>
+			)}
 		</div>
 	);
 }

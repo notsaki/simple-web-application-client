@@ -1,0 +1,42 @@
+@import "src/app/styles/consts";
+
+.labeled-element {
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 0 10px;
+
+    label {
+      flex: 1;
+    }
+
+    .error {
+      color: $error-colour;
+      font-size: 12px;
+    }
+  }
+
+  input,
+  .input {
+    border-radius: $border-radius;
+  }
+
+  .input {
+    display: flex;
+    // So the element won't move if .error class is applied.
+    border: 1px solid transparent;
+
+    & > * {
+      flex: 1;
+    }
+
+    &.error {
+      border: 1px solid $error-colour;
+    }
+  }
+}

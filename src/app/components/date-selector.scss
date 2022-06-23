@@ -1,0 +1,19 @@
+@import "src/app/styles/consts";
+@import "src/app/styles/effects";
+
+.date-picker {
+  display: flex;
+  position: relative;
+
+  input {
+    @include clickable("background", white, 2%, 4%);
+    cursor: pointer;
+    flex: 1;
+  }
+}
+
+.sdp {
+  position: absolute;
+  --theme-color: #a2718c !important;
+  top: 40px;
+}

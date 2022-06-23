@@ -5,13 +5,11 @@ import "./home-page.scss";
 export default function HomePage(): JSX.Element {
 	return (
 		<div id={"homePage"}>
-			<div id={"homeContainer"}>
-				<h3>Home</h3>
-				<ul>
-					<Link to={"/register"}><li>Register new user</li></Link>
-					<Link to={"users"}><li>Display users</li></Link>
-				</ul>
-			</div>
+			<h3>Home</h3>
+			<ul>
+				<Link to={"/register"}><li>Register new user</li></Link>
+				<Link to={"users"}><li>Display users</li></Link>
+			</ul>
 		</div>
 	);
 }

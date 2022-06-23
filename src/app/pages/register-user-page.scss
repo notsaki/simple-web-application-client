@@ -1,0 +1,17 @@
+#registerUserPage {
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  width: 50%;
+
+  .labeled-element {
+    margin-bottom: 20px;
+  }
+
+  #registerActions {
+    display: flex;
+    justify-content: center;
+  }
+}

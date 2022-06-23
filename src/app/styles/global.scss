@@ -1,11 +1,14 @@
 @import "consts";
+@import "effects";
 
 h1,
 h2,
 h3,
 span,
-a {
-    font-family: "Roboto", "Arial", serif;
+a,
+input,
+label {
+    font-family: $font-family;
 }
 
 span,
@@ -19,6 +22,30 @@ h3 {
     font-size: 26px;
 }
 
+input {
+    all: unset;
+    font-family: $font-family;
+    padding: 8px;
+    background: white;
+    border: 1px solid hsl(0, 0%, 80%);
+
+    &:hover {
+        border-color: $primary-colour;
+    }
+
+    &:focus {
+        border-color: $primary-colour;
+    }
+}
+
 body {
     background: $background;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
