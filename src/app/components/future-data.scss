@@ -1,0 +1,20 @@
+$spin-fatness: 10px;
+$spinner-size: 50px;
+
+.loading-spinner {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 10px;
+  border: $spin-fatness solid #ffffff88;
+  border-left: $spin-fatness solid white;
+  animation: sbin 0.8s infinite ease-out;
+}
+
+@-webkit-keyframes sbin {
+  0% { transform: rotate(-90deg); }
+  100% { transform: rotate(270deg); }
+}

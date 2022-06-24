@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import "./future-data.scss";
+import ModalWindow from "./ModalWindow";
 
 interface FutureDataProps<T> {
 	repository(): Promise<T>;
@@ -11,6 +13,9 @@ export default function FutureData<T>(props: FutureDataProps<T>): JSX.Element {
 	const [data, setData] = useState<T | null>(null);
 
 	useEffect(() => {
+		// To show loading view.
+		setData(null);
+
 		props.repository()
 			.then(setData)
 			.catch(props.onError);
@@ -18,7 +23,9 @@ export default function FutureData<T>(props: FutureDataProps<T>): JSX.Element {
 
 	if(data === null) {
 		return (
-			<span>Loading...</span>
+			<ModalWindow>
+				<div className={"loading-spinner"} />
+			</ModalWindow>
 		)
 	} else {
 		return (
