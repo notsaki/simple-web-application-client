@@ -11,15 +11,6 @@ import {errorOrNull, isGender, isName, isPastDate, isValidAddress} from "../util
 import {unwrapValue} from "../utils/event.utils";
 import NullableInput from "../components/NullableInput";
 
-interface FormErrors {
-	name: string | null;
-	surname: string | null;
-	gender: string | null;
-	birthdate: string | null;
-	workAddress: string | null;
-	homeAddress: string | null;
-}
-
 export default function RegisterUserPage(): JSX.Element {
 	const userDao = useDependencyContext().daos.userDao;
 
@@ -34,45 +25,27 @@ export default function RegisterUserPage(): JSX.Element {
 	const [workAddress, setWorkAddress] = useState<string | null>(null);
 	const [homeAddress, setHomeAddress] = useState<string | null>(null);
 
-	const [errors, setErrors] = useState<FormErrors>({
-		name: null,
-		surname: null,
-		gender: null,
-		birthdate: null,
-		workAddress: null,
-		homeAddress: null,
-	});
+	const [validName, setValidName] = useState(false);
+	const [validSurname, setValidSurname] = useState(false);
+	const [validGender, setValidGender] = useState(true);
+	const [validBirthdate, setValidBirthdate] = useState(true);
+	const [validWorkAddress, setValidWorkAddress] = useState(true);
+	const [validHomeAddress, setValidHomeAddress] = useState(true);
 
 	const [message, setMessage] = useState<string | null>("");
 
-	const validateName = () => errorOrNull(name, isName, "Invalid name length (1-64).");
-	const validateSurname = () => errorOrNull(surname, isName, "Invalid surname length (1-64)." );
-	const validateGender = () => errorOrNull(gender, isGender, "Invalid value. Please select either Male or Female.");
-	const validateBirthdate = () => errorOrNull(birthdate, isPastDate, "Birthdate should be in the past.");
-	const validateWorkAddress = () => errorOrNull(workAddress, isValidAddress, "Invalid address length. Should be between 1-128 characters long or empty.");
-	const validateHomeAddress = () => errorOrNull(homeAddress, isValidAddress, "Invalid address length. Should be between 1-128 characters long or empty.");
-
-	const setError = (key: keyof FormErrors, value: string | null) => setErrors({ ...errors, [key]: value });
-
-	function validateAll(): boolean {
-		const errors = {
-			name: validateName(),
-			surname: validateSurname(),
-			gender: validateGender(),
-			birthdate: validateBirthdate(),
-			workAddress: validateWorkAddress(),
-			homeAddress: validateHomeAddress(),
-		};
-
-		setErrors(errors);
-
-		return !Object.values(errors).find(value => value !== null);
-	}
+	const isSubmittable = [
+			validName,
+			validSurname,
+			validGender,
+			validBirthdate,
+			validWorkAddress,
+			validHomeAddress,
+		]
+			.find(value => !value) !== undefined;
 
 	function onSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-
-		if(!validateAll()) return;
 
 		const user: UserDto = { name, surname, gender, birthdate, homeAddress, workAddress };
 		userDao.save(user)
@@ -80,36 +53,51 @@ export default function RegisterUserPage(): JSX.Element {
 			.catch(e => setMessage(JSON.stringify(e.message)));
 	}
 
-	useEffect(() => {
-		setError("birthdate", validateBirthdate());
-	}, [birthdate]);
-
 	return (
 		<div id={"registerUserPage"}>
 			<h3>Register user</h3>
 			{message !== null && <span>{message}</span>}
 			<form onSubmit={onSubmit}>
-				<LabeledElement htmlFor={"name"} label={"Name"} error={errors.name}>
+				<LabeledElement
+					value={name}
+					onValidation={setValidName}
+					validator={isName}
+					htmlFor={"name"}
+					label={"Name"}
+					error={"Invalid name length (1-64)."}
+				>
 					<input
 						id={"name"}
 						type={"text"}
 						placeholder={"Name"}
 						value={name}
 						onChange={e => setName(unwrapValue(e))}
-						onBlur={() => setError("name", validateName())}
 					/>
 				</LabeledElement>
-				<LabeledElement htmlFor={"surname"} label={"Surname"} error={errors.surname}>
+				<LabeledElement
+					htmlFor={"surname"}
+					label={"Surname"}
+					error={"Invalid surname length (1-64)."}
+					onValidation={setValidSurname}
+					validator={isName}
+					value={surname}
+				>
 					<input
 						id={"surname"}
 						type={"text"}
 						placeholder={"Surname"}
 						value={surname}
 						onChange={e => serSurname(unwrapValue(e))}
-						onBlur={() => setError("surname", validateSurname())}
 					/>
 				</LabeledElement>
-				<LabeledElement label={"Gender"} htmlFor={"gender"} error={errors.gender}>
+				<LabeledElement
+					label={"Gender"}
+					htmlFor={"gender"}
+					error={"Invalid value. Please select either Male or Female."}
+					validator={isGender}
+					onValidation={setValidGender}
+					value={gender}
+				>
 					<DropDown
 						value={gender}
 						onChange={value => value && setGender(value.value)}
@@ -117,37 +105,56 @@ export default function RegisterUserPage(): JSX.Element {
 							{ value: Gender.MALE, label: "Male" },
 							{ value: Gender.FEMALE, label: "Female" },
 						]}
-						onBlur={() => setError("gender", validateGender())}
 					/>
 				</LabeledElement>
-				<LabeledElement label={"Date of Birth"} htmlFor={"birthdate"} error={errors.birthdate}>
+				<LabeledElement
+					label={"Date of Birth"}
+					htmlFor={"birthdate"}
+					error={"Birthdate should be in the past."}
+					validator={isPastDate}
+					onValidation={setValidBirthdate}
+					value={birthdate}
+					emitOn={"change"}
+				>
 					<DateSelector
 						value={birthdate}
-						onChange={date => setBirthdate(date)}
+						onChange={setBirthdate}
 					/>
 				</LabeledElement>
-				<LabeledElement label={"Work Address"} htmlFor={"workAddress"} error={errors.workAddress}>
+				<LabeledElement
+					label={"Work Address"}
+					htmlFor={"workAddress"}
+					error={"Invalid address length. Should be between 1-128 characters long or empty."}
+					validator={isValidAddress}
+					onValidation={setValidWorkAddress}
+					value={workAddress}
+				>
 					<NullableInput
 						id={"workAddress"}
 						type={"text"}
 						placeholder={"Work Address"}
-						value={workAddress ?? ""}
+						value={workAddress}
 						onChange={e => setWorkAddress(unwrapValue(e))}
-						onBlur={() => setError("workAddress", validateWorkAddress())}
 					/>
 				</LabeledElement>
-				<LabeledElement label={"Home Address"} htmlFor={"homeAddress"} error={errors.homeAddress}>
+				<LabeledElement
+					label={"Home Address"}
+					htmlFor={"homeAddress"}
+					error={"Invalid address length. Should be between 1-128 characters long or empty.\""}
+					validator={isValidAddress}
+					onValidation={setValidHomeAddress}
+					value={homeAddress}
+				>
 					<NullableInput
 						id={"homeAddress"}
 						type={"text"}
 						placeholder={"Home Address"}
-						value={homeAddress ?? ""}
+						value={homeAddress}
 						onChange={e => setHomeAddress(unwrapValue(e))}
-						onBlur={() => setError("homeAddress", validateHomeAddress())}
 					/>
 				</LabeledElement>
 				<div id={"registerActions"}>
-					<FormButton type={"submit"} value={"Submit"} />
+					<FormButton disabled={isSubmittable} type={"submit"} value={"Submit"} />
 				</div>
 			</form>
 		</div>

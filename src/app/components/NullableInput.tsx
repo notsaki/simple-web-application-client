@@ -9,13 +9,16 @@ interface NullableChangeEvent extends Omit<React.ChangeEvent<HTMLInputElement>, 
 	currentTarget: NullableEventTarget
 }
 
-interface NullableInputProps
-	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+interface NullableInputProps extends Omit<
+	React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+	"onChange" | "value"
+> {
 	onChange(event: NullableChangeEvent);
+	value: string | null;
 }
 
 export default function NullableInput(props: NullableInputProps): JSX.Element {
-	const { onChange, onBlur, ...rest } = props;
+	const { onChange, onBlur, value, ...rest } = props;
 
 	function onEventWrapper(event: React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) {
 		const value = unwrapValue(event);
@@ -31,6 +34,6 @@ export default function NullableInput(props: NullableInputProps): JSX.Element {
 	}
 
 	return (
-		<input {...rest} onChange={onEventWrapper} onBlur={onEventWrapper} />
+		<input {...rest} value={value ?? ""} onChange={onEventWrapper} onBlur={onEventWrapper} />
 	);
 }

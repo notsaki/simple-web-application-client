@@ -19,8 +19,6 @@ function splitRoute(route: string[]): [string, string[]] {
 }
 
 export default class HttpClient {
-	private baseUrl = "http://locahost:8080";
-
 	private send<TResult>(requestType: RequestType, route: string[], body?: object): Promise<TResult> {
 		const [apiRoute, params] = splitRoute(route);
 		const serialisedRoute = applyParametres(apiRoute, params);
