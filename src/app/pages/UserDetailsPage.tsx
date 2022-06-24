@@ -2,6 +2,18 @@ import React, {useEffect, useState} from "react";
 import {useDependencyContext} from "../dependency.context";
 import {User} from "../domain/entities/user.entity";
 import {useParams} from "react-router";
+import KeyValueListView from "../components/KeyValueListView";
+import {genderToString} from "../utils/gender.utils";
+import FormButton from "../components/FormButton";
+
+interface UserViewData {
+	Name: string;
+	Surname: string;
+	Gender: string;
+	Birthdate: string;
+	WorkAddress: string;
+	HomeAddress: string;
+}
 
 export default function UserDetailsPage(): JSX.Element {
 	const userDao = useDependencyContext().daos.userDao;
@@ -17,31 +29,30 @@ export default function UserDetailsPage(): JSX.Element {
 		userDao.findById(id).then(response => setUser(response));
 	}, []);
 
+	let view: JSX.Element;
+	if(user !== null) {
+		const userViewData: UserViewData = {
+			Name: user.name,
+			Surname: user.surname,
+			Gender: genderToString(user.gender),
+			Birthdate: user.birthdate.toLocaleDateString(),
+			WorkAddress: user.workAddress ?? "-",
+			HomeAddress: user.homeAddress ?? "-",
+		};
+
+		 view = (
+			 <>
+			 	<h3>{user.name} {user.surname}</h3>
+				 <KeyValueListView items={userViewData} />
+			 </>
+		 )
+	} else {
+		view = <span>Loading...</span>;
+	}
+
 	return (
 		<div>
-			<h3>User Details Page</h3>
-			{user !== null ? (
-				<table>
-					<tbody>
-					<tr>
-						<th>Name</th>
-						<th>Surname</th>
-						<th>Gender</th>
-						<th>Date of Birth</th>
-						<th>Work Address</th>
-						<th>Home Address</th>
-					</tr>
-					<tr>
-						<td>{user.name}</td>
-						<td>{user.surname}</td>
-						<td>{user.gender}</td>
-						<td>{user.birthdate.toLocaleDateString()}</td>
-						<td>{user.workAddress}</td>
-						<td>{user.homeAddress}</td>
-					</tr>
-					</tbody>
-				</table>
-			) : <span>Loading...</span>}
+			{view}
 		</div>
 	)
 }

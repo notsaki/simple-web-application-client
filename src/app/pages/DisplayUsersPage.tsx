@@ -5,8 +5,6 @@ import {UserListItemDto} from "../domain/entities/user.entity";
 import "./display-users-page.scss";
 
 export default function DisplayUsersPage(): JSX.Element {
-	const navigate = useNavigate();
-
 	const userDao = useDependencyContext().daos.userDao;
 	const [users, setUsers] = useState<UserListItemDto[]>([]);
 
@@ -26,7 +24,7 @@ export default function DisplayUsersPage(): JSX.Element {
 					<th>Surname</th>
 				</tr>
 				{users.map(user => (
-					<tr key={user.id} onClick={() => navigate(`/user/${user.id}`)}>
+					<tr key={user.id} onClick={() => window.open(`/user/${user.id}`, "_blank")}>
 						<td>{user.name}</td>
 						<td>{user.surname}</td>
 					</tr>
