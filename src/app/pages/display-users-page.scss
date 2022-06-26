@@ -5,6 +5,15 @@
   flex-direction: column;
   width: 50%;
 
+  #emptyListMessage {
+    display: flex;
+    align-items: center;
+
+    span {
+      flex: 1;
+    }
+  }
+
   table {
     tr:not(:first-child) {
       @include clickable("background", white, 1%, 2%);

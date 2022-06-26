@@ -25,8 +25,8 @@ export default class HttpClient {
 
 		return axiosFactory()
 			.request({ method: requestType, url: serialisedRoute, data: body })
-			.then(response => response.data)
-			.catch(error => Promise.reject(error.response));
+			.then(response => response.data ?? {})
+			.catch(error => Promise.reject(error));
 	}
 
 	public delete<TResult>(route: string[]): Promise<TResult> {

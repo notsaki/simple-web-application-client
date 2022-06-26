@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {useDependencyContext} from "../dependency.context";
-import {User} from "../domain/entities/user.entity";
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import KeyValueListView from "../components/KeyValueListView";
 import {genderToString} from "../utils/gender.utils";
-import FormButton from "../components/FormButton";
 import FutureData from "../components/FutureData";
+import {Delete, Edit} from "@material-ui/icons";
+import "./user-details-page.scss";
+import {routes} from "../Router";
 
 interface UserViewData {
 	Name: string;
@@ -17,6 +18,7 @@ interface UserViewData {
 }
 
 export default function UserDetailsPage(): JSX.Element {
+	const navigate = useNavigate();
 	const userDao = useDependencyContext().daos.userDao;
 
 	const { userId } = useParams();
@@ -25,8 +27,18 @@ export default function UserDetailsPage(): JSX.Element {
 	const id = parseInt(userId);
 	if(isNaN(id)) throw new Error("Invalid id format.");
 
+	function deleteUser() {
+		userDao
+			.remove(id)
+			.then(() => {
+				console.log(routes.listUsers)
+				navigate(routes.listUsers);
+			})
+			.catch(e => console.log(e));
+	}
+
 	return (
-		<div>
+		<div id={"userDetailsPage"}>
 			<FutureData
 				repository={() => userDao.findById(id)}
 				viewFactory={user => {
@@ -41,7 +53,10 @@ export default function UserDetailsPage(): JSX.Element {
 
 					return (
 						<>
-							<h3>{user.name} {user.surname}</h3>
+							<div id={"actions"}>
+								<h3>{user.name} {user.surname}</h3>
+								<Delete className={"action-icon"} onClick={() => deleteUser()} />
+							</div>
 							<KeyValueListView items={userViewData}/>
 						</>
 					);

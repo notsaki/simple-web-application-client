@@ -1,0 +1,22 @@
+#userDetailsPage {
+  #actions {
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      .action-icon {
+        display: unset;
+      }
+    }
+
+    h3 {
+      flex: 1;
+    }
+
+    .action-icon {
+      display: none;
+      cursor: pointer;
+      margin-left: 20px;
+    }
+  }
+}

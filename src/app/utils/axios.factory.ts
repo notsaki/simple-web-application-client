@@ -7,6 +7,7 @@ export function axiosFactory() {
 		baseURL: "http://localhost:8080",
 		transformRequest: [dateRequestTransformer].concat(axios.defaults.transformRequest!),
 		transformResponse: dateResponseTransformer,
+		validateStatus: status => status >= 200 && status <= 299,
 		withCredentials: true,
 	});
 }
