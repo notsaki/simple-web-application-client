@@ -10,7 +10,7 @@ export function axiosFactory() {
 		transformRequest: [dateRequestTransformer].concat(axios.defaults.transformRequest!),
 		transformResponse: dateResponseTransformer,
 		validateStatus: status => status >= 200 && status <= 299,
-		withCredentials: true,
+		withCredentials: false,
 	});
 
 	applyAuthTokenInterceptor(instance, {

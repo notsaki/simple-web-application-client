@@ -3,6 +3,7 @@ export function errorHandler(error, overrides: { [key: number]: string } = {}): 
 	const responses = {
 		400: "Invalid request.",
 		401: "Session expired.",
+		422: "Invalid data format.",
 		403: "Access to this page is not allowed.",
 		500: "Internal server error.",
 		...overrides,
