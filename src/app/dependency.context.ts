@@ -1,9 +1,10 @@
 import useContextFactory from "./hooks/useContextFactory";
-import {UserDao} from "./domain/dao";
+import {AuthDao, UserDao} from "./domain/dao";
 
 export interface DependencyContext {
 	daos: {
 		userDao: UserDao;
+		authDao: AuthDao;
 	};
 }
 

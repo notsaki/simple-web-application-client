@@ -1,20 +1,21 @@
-#registerUserPage {
-  margin-top: 5vh;
+#loginForm {
+  margin-block-start: 15vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  width: 50%;
+  width: 25%;
 
   h3 {
     margin-bottom: 20px;
   }
 
   .labeled-element {
-    margin-bottom: 20px;
+    margin-block-end: 20px;
   }
 
-  #registerActions {
+  #loginFormActions {
+    margin-block-start: 20px;
     display: flex;
     justify-content: center;
   }

@@ -5,6 +5,10 @@
   flex-direction: column;
   width: 50%;
 
+  h3 {
+    margin-bottom: 20px;
+  }
+
   #emptyListMessage {
     display: flex;
     align-items: center;

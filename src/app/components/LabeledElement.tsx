@@ -8,7 +8,7 @@ interface LabeledElementProps<T> extends
 	error: string | null;
 	value: T;
 	children: JSX.Element | JSX.Element[];
-	validator(value: T): boolean;
+	validator?(value: T): boolean;
 	onValidation?(isValid: boolean);
 	emitOn: "blur" | "change";
 }
@@ -22,7 +22,7 @@ export default function LabeledElement<T>(props: LabeledElementProps<T>): JSX.El
 	const [error, setError] = useState<string | null>(null);
 	const { children, label, onValidation, validator, value, emitOn, ...labelProps } = props;
 
-	const isValid = validator(value);
+	const isValid = !validator ? true : validator(value);
 
 	function validate() {
 		// We don't show the error if value doesn't exist because the user may have not yet filled the field.

@@ -1,0 +1,25 @@
+@import "src/app/styles/consts";
+
+#apiMessages {
+  position: absolute;
+  top: 20px;
+
+  .message {
+    background: darken($error-colour, 10%);
+    padding: 5px 20px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+
+    span,
+    svg {
+      color: white;
+    }
+
+    svg {
+      margin-left: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+}

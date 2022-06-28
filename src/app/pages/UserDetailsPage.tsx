@@ -4,7 +4,7 @@ import {useNavigate, useParams} from "react-router";
 import KeyValueListView from "../components/KeyValueListView";
 import {genderToString} from "../utils/gender.utils";
 import FutureData from "../components/FutureData";
-import {Delete, Edit} from "@material-ui/icons";
+import {Delete} from "@material-ui/icons";
 import "./user-details-page.scss";
 import {routes} from "../Router";
 
