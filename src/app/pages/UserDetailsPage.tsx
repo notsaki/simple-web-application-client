@@ -7,6 +7,8 @@ import FutureData from "../components/FutureData";
 import {Delete} from "@material-ui/icons";
 import "./user-details-page.scss";
 import {routes} from "../Router";
+import {useApiMessage} from "../api-message.context";
+import {errorHandler} from "../utils/error-handler";
 
 interface UserViewData {
 	Name: string;
@@ -18,6 +20,7 @@ interface UserViewData {
 }
 
 export default function UserDetailsPage(): JSX.Element {
+	const setApiMessage = useApiMessage();
 	const navigate = useNavigate();
 	const userDao = useDependencyContext().daos.userDao;
 
@@ -34,7 +37,7 @@ export default function UserDetailsPage(): JSX.Element {
 				console.log(routes.listUsers)
 				navigate(routes.listUsers);
 			})
-			.catch(e => console.log(e));
+			.catch(e => setApiMessage(errorHandler(e)));
 	}
 
 	return (

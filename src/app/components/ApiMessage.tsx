@@ -13,7 +13,7 @@ export default function ApiMessage(props: ApiMessageProps): JSX.Element {
 	return (
 		<div id={"apiMessages"}>
 			{props.messages.map((message, i) => (
-				<div className={"message"}>
+				<div key={i} className={"message"}>
 					<span>{message}</span>
 					<Close onClick={() => setApiMessage(props.messages.filter((_, j) => i !== j))} />
 				</div>
