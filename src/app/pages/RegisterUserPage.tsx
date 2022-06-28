@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Gender from "../domain/entities/gender";
 import DateSelector from "../components/DateSelector";
 import {UserDto} from "../domain/entities/user.entity";
@@ -7,21 +7,25 @@ import LabeledElement from "../components/LabeledElement";
 import "./register-user-page.scss";
 import FormButton from "../components/FormButton";
 import DropDown from "../components/DropDown";
-import {errorOrNull, isGender, isName, isPastDate, isValidAddress} from "../utils/validators";
+import {isGender, isName, isPastDate, isValidAddress} from "../utils/validators";
 import {unwrapValue} from "../utils/event.utils";
 import NullableInput from "../components/NullableInput";
+import SuccessMessage from "../components/SuccessMessage";
+import {useResetState} from "../hooks/useResetState";
 
 export default function RegisterUserPage(): JSX.Element {
 	const userDao = useDependencyContext().daos.userDao;
 
-	const [name, setName] = useState<string>("");
-	const [surname, serSurname] = useState<string>("");
-	const [gender, setGender] = useState<Gender>(Gender.MALE);
-	const [birthdate, setBirthdate] = useState<Date>(() => {
+	const initialDate = () => {
 		const date = new Date(Date.now());
 		date.setDate(date.getDate() - 1);
 		return date;
-	});
+	};
+
+	const [name, setName] = useState<string>("");
+	const [surname, setSurname] = useState<string>("");
+	const [gender, setGender] = useState<Gender>(Gender.MALE);
+	const [birthdate, setBirthdate] = useState<Date>(initialDate);
 	const [workAddress, setWorkAddress] = useState<string | null>(null);
 	const [homeAddress, setHomeAddress] = useState<string | null>(null);
 
@@ -32,7 +36,7 @@ export default function RegisterUserPage(): JSX.Element {
 	const [validWorkAddress, setValidWorkAddress] = useState(true);
 	const [validHomeAddress, setValidHomeAddress] = useState(true);
 
-	const [message, setMessage] = useState<string | null>("");
+	const [message, setMessage] = useResetState<string>(5000);
 
 	const isSubmittable = [
 			validName,
@@ -49,14 +53,22 @@ export default function RegisterUserPage(): JSX.Element {
 
 		const user: UserDto = { name, surname, gender, birthdate, homeAddress, workAddress };
 		userDao.save(user)
-			.then(result => setMessage(JSON.stringify(result)))
+			.then(() => {
+				setMessage("User added successfully.");
+				setName("");
+				setSurname("");
+				setGender(Gender.MALE);
+				setBirthdate(initialDate);
+				setWorkAddress(null);
+				setHomeAddress(null);
+			})
 			.catch(e => setMessage(JSON.stringify(e.message)));
 	}
 
 	return (
 		<div id={"registerUserPage"}>
 			<h3>Register user</h3>
-			{message !== null && <span>{message}</span>}
+			{message !== null && <SuccessMessage message={message} closer={() => setMessage(null)} />}
 			<form onSubmit={onSubmit}>
 				<LabeledElement
 					value={name}
@@ -87,7 +99,7 @@ export default function RegisterUserPage(): JSX.Element {
 						type={"text"}
 						placeholder={"Surname"}
 						value={surname}
-						onChange={e => serSurname(unwrapValue(e))}
+						onChange={e => setSurname(unwrapValue(e))}
 					/>
 				</LabeledElement>
 				<LabeledElement

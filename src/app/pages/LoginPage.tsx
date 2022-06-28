@@ -26,6 +26,7 @@ export default function LoginPage(): JSX.Element {
 		authDao
 			.login(admin)
 			.then(jwt => {
+				setApiMessage([]);
 			setAuthTokens({
 				accessToken: jwt.access_token,
 				refreshToken: jwt.refresh_token,

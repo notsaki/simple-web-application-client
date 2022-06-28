@@ -6,7 +6,7 @@ import {dependencyContextFactory} from "./dependency-context.factory";
 
 export function axiosFactory() {
 	const instance = axios.create({
-		baseURL: "http://localhost:8080",
+		baseURL: "http://localhost:8080/",
 		transformRequest: [dateRequestTransformer].concat(axios.defaults.transformRequest!),
 		transformResponse: dateResponseTransformer,
 		validateStatus: status => status >= 200 && status <= 299,

@@ -11,6 +11,6 @@ export function errorHandler(error, overrides: { [key: number]: string } = {}): 
 	try {
 		return [responses[error.response.status]];
 	} catch {
-		return ["Unknown error."];
+		return ["Could not communicate with the server."];
 	}
 }
