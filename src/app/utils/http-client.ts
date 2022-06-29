@@ -1,4 +1,4 @@
-import {axiosFactory} from "./axios.factory";
+import {axiosFactory} from "./axios.utils/axios.factory";
 
 enum RequestType {
 	Post = "POST",

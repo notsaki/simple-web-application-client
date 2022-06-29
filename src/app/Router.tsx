@@ -17,12 +17,12 @@ export const routes = {
 };
 
 export default function Router(): JSX.Element {
-	const authenticated = useAuthContext()[0];
+	const { token } = useAuthContext();
 
 	return (
 		<BrowserRouter>
 			<Routes>
-				{authenticated ? (
+				{token ? (
 						<>
 							<Route path={routes.home} element={<HomePage />} />
 							<Route path={routes.createUser} element={<RegisterUserPage />} />

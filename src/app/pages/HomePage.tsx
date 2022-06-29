@@ -3,15 +3,13 @@ import {Link} from "react-router-dom";
 import "./home-page.scss";
 import {routes} from "../Router";
 import Button from "../components/Button";
-import {clearAuthTokens} from "axios-jwt";
 import {useAuthContext} from "../user.context";
 
 export default function HomePage(): JSX.Element {
-	const setIsLoggedIn = useAuthContext()[1];
+	const { clearToken } = useAuthContext();
 
 	function logout() {
-		clearAuthTokens();
-		setIsLoggedIn(false);
+		clearToken();
 	}
 
 	return (

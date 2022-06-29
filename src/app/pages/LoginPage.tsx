@@ -4,14 +4,13 @@ import {unwrapValue} from "../utils/event.utils";
 import FormButton from "../components/FormButton";
 import "./login-page.scss";
 import {useDependencyContext} from "../dependency.context";
-import {setAccessToken, setAuthTokens} from "axios-jwt";
-import {useAuthContext} from "../user.context";
 import {errorHandler} from "../utils/error-handler";
 import {useApiMessage} from "../api-message.context";
+import {useAuthContext} from "../user.context";
 
 export default function LoginPage(): JSX.Element {
+	const { setToken } = useAuthContext();
 	const authDao = useDependencyContext().daos.authDao;
-	const setIsLoggedIn = useAuthContext()[1];
 	const setApiMessage = useApiMessage();
 
 	const [username, setUsername] = useState("");
@@ -26,14 +25,8 @@ export default function LoginPage(): JSX.Element {
 		authDao
 			.login(admin)
 			.then(jwt => {
+				setToken(jwt);
 				setApiMessage([]);
-			setAuthTokens({
-				accessToken: jwt.access_token,
-				refreshToken: jwt.refresh_token,
-			});
-
-			setAccessToken(jwt.access_token);
-			setIsLoggedIn(true);
 		})
 			.catch(error => setApiMessage(errorHandler(error, { 401: "Invalid username or password. "})));
 	}

@@ -1,7 +1,13 @@
 import useContextFactory from "./hooks/useContextFactory";
-import React from "react";
+import {Jwt} from "./domain/entities/jwt.entity";
 
-const authContext = useContextFactory<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>(undefined!)
+interface TokenContext {
+	token: Jwt | null;
+	setToken: (token: Jwt) => void;
+	clearToken: () => void;
+}
+
+const authContext = useContextFactory<TokenContext>(undefined!)
 
 export const useAuthContext = authContext.useContext;
 export const AuthProvider = authContext.ContextProvider;
