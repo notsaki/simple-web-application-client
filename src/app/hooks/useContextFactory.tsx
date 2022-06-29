@@ -14,6 +14,12 @@ export interface Context<T> {
 	ContextProvider: ContextProvider<T>;
 }
 
+/**
+ * Creates a new context.
+ * @param value the initial value.
+ * @returns A provider wrapper that accepts JSX.Elements and the initial value of the context, the hook and the context
+ * object.
+ */
 export default function useContextFactory<T>(value: T): Context<T> {
 	const Context: React.Context<T> = createContext<T>(value);
 	const contextHook: ContextHook<T> = () => useContext(Context);

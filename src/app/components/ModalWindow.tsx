@@ -6,6 +6,10 @@ interface ModalWindowProps {
 	children: JSX.Element | JSX.Element[];
 }
 
+/**
+ * Modal window that fills the entire screen with a div element and displays the specified element. The modal is being
+ * displayed alongside the app's root element.
+ */
 export default function ModalWindow(props: ModalWindowProps): JSX.Element {
 	const modalWindow = document.createElement("div");
 	const modalRef = useRef<HTMLDivElement | null>(null);

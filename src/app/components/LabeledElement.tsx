@@ -18,6 +18,10 @@ LabeledElement.defaultProps = {
 	emitOn: "blur",
 };
 
+/**
+ * Component that accepts a label and a validator. It displays the specified error if the validator returns false. The
+ * validator can be executed either on input change or the blur event.
+ */
 export default function LabeledElement<T>(props: LabeledElementProps<T>): JSX.Element {
 	const [error, setError] = useState<string | null>(null);
 	const { children, label, onValidation, validator, value, emitOn, ...labelProps } = props;

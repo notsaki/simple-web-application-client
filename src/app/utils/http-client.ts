@@ -18,6 +18,15 @@ function splitRoute(route: string[]): [string, string[]] {
 	return [routeStr, route];
 }
 
+/**
+ * Wrapper class for HTTP requests.
+ * Supported request types: POST, GET, PUT, DELETE.
+ * The route should be provided as a list with the first element being the route. Any path param's position in the url
+ * should be referenced with a {} and the actual value being after the first element in the list. e.g. [/user/{}/{},
+ * "name", 25] will be translated to /user/name/25.
+ *
+ * POST and PATCH requests also support body.
+ */
 export default class HttpClient {
 	private send<TResult>(requestType: RequestType, route: string[], body?: object): Promise<TResult> {
 		const [apiRoute, params] = splitRoute(route);

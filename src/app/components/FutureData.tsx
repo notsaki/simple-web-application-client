@@ -9,6 +9,9 @@ interface FutureDataProps<T> {
 	trigger?: any;
 }
 
+/**
+ * Component that handles promises and displays a loading screen until the promise is resolved or rejected.
+ */
 export default function FutureData<T>(props: FutureDataProps<T>): JSX.Element {
 	const [data, setData] = useState<T | null>(null);
 

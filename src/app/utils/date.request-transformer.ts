@@ -1,7 +1,13 @@
 import {AxiosRequestTransformer} from "axios";
 
+/**
+ * Date serialiser interceptor for Axios. It formats recursively any kind of date in the format: yyyy-mm-dd.
+ * @param data
+ */
 export const dateRequestTransformer: AxiosRequestTransformer = data => {
 	if (data instanceof Date) {
+		// The toISOString() method returns the desired format including the time so all needed to be done is to trim
+		// the time.
 		return data.toISOString().slice(0, 10);
 	}
 

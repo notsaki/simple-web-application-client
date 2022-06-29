@@ -13,6 +13,10 @@ export function axiosFactory() {
 		withCredentials: false,
 	});
 
+	/**
+	 * A JWT interceptor is given to Axios that adds the JWT to the headers and also automatically, refresh the token
+	 * if expired.
+	 */
 	applyAuthTokenInterceptor(instance, {
 		requestRefresh: refreshToken => dependencyContextFactory("impl").daos.authDao
 			.refresh({ refreshToken })

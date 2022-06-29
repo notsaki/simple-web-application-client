@@ -17,6 +17,9 @@ interface NullableInputProps extends Omit<
 	value: string | null;
 }
 
+/**
+ * Component wrapper that supports a nullable value. It transforms empty strings into null.
+ */
 export default function NullableInput(props: NullableInputProps): JSX.Element {
 	const { onChange, onBlur, value, ...rest } = props;
 

@@ -29,7 +29,7 @@ export default function Router(): JSX.Element {
 							<Route path={routes.listUsers} element={<DisplayUsersPage />} />
 							<Route path={`${routes.userDetails}/:userId`} element={<UserDetailsPage />} />
 							<Route path={"/login"} element={<Navigate replace to={"/"} />} />
-							<Route path={"*"} element={<NotFoundPage />} />
+							<Route path={"*"} element={<Navigate replace to={"/"} />} />
 						</>
 				) : (
 					<>
