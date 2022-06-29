@@ -4,7 +4,7 @@ import ModalWindow from "./ModalWindow";
 
 interface FutureDataProps<T> {
 	repository(): Promise<T>;
-	viewFactory(data: T): JSX.Element | JSX.Element[];
+	viewFactory(data: T, setData: (data: T) => void): JSX.Element | JSX.Element[];
 	onError(error: Error);
 	trigger?: any;
 }
@@ -33,7 +33,7 @@ export default function FutureData<T>(props: FutureDataProps<T>): JSX.Element {
 	} else {
 		return (
 			<>
-				{props.viewFactory(data)}
+				{props.viewFactory(data, setData)}
 			</>
 		);
 	}

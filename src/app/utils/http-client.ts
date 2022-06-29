@@ -3,7 +3,7 @@ import {axiosFactory} from "./axios.factory";
 enum RequestType {
 	Post = "POST",
 	Get = "GET",
-	Put = "PUT",
+	Patch = "PATCH",
 	Delete = "DELETE",
 }
 
@@ -50,7 +50,7 @@ export default class HttpClient {
 		return this.send(RequestType.Post, route, body);
 	}
 
-	public put<TResult>(route: string[], body: object): Promise<TResult> {
-		return this.send(RequestType.Put, route, body);
+	public patch<TResult>(route: string[], body: object): Promise<TResult> {
+		return this.send(RequestType.Patch, route, body);
 	}
 }

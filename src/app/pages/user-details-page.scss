@@ -21,4 +21,27 @@
       margin-left: 20px;
     }
   }
+
+  #editActions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  #userDetails {
+    border-spacing: 0 2px;
+
+    th {
+      padding-right: 150px;
+    }
+
+    tr {
+      background: white;
+    }
+
+    td {
+      padding: 10px 40px;
+      background: white;
+    }
+  }
 }

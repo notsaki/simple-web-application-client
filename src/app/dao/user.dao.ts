@@ -10,6 +10,10 @@ export default class UserDaoImpl implements UserDao {
 		return this.httpClient.get(["/user"]);
 	}
 
+	public updateById(id: number, user: UserDto): Promise<User> {
+		return this.httpClient.patch(["/user/{}", id.toString()], user);
+	}
+
 	public remove(id: number): Promise<void> {
 		return this.httpClient.delete(["/user/{}", id.toString()]);
 	}
