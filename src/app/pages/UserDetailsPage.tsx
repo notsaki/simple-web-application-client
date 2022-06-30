@@ -19,6 +19,7 @@ import {unwrapValue} from "../utils/event.utils";
 import {useResetState} from "../hooks/useResetState";
 import SuccessMessage from "../components/SuccessMessage";
 import {equalUsers} from "../utils/equalUsers";
+import ErrorPage from "./ErrorPage";
 
 export default function UserDetailsPage(): JSX.Element {
 	const setApiMessage = useApiMessage();
@@ -42,7 +43,7 @@ export default function UserDetailsPage(): JSX.Element {
 				navigate(routes.listUsers);
 				setSuccess(true);
 			})
-			.catch(e => setApiMessage(errorHandler(e)));
+			.catch(e => setApiMessage(errorHandler(e, { 404: "User not found." })));
 	}
 
 	return (
@@ -98,7 +99,7 @@ export default function UserDetailsPage(): JSX.Element {
 								}
 								<Delete className={"action-icon"} onClick={() => deleteUser()} />
 							</div>
-							<table id={"userDetails"}>
+							<table id={"userDetails"} className={editMode ? "edit-mode" : ""}>
 								<tbody>
 								<tr>
 									<th>Name</th>
@@ -182,7 +183,7 @@ export default function UserDetailsPage(): JSX.Element {
 						</>
 					);
 				}}
-				onError={() => {}}
+				onError={error => <ErrorPage error={error} overrides={{ 404: "User not found." }} />}
 			/>
 		</div>
 	)

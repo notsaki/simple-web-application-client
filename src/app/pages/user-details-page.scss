@@ -1,22 +1,24 @@
 #userDetailsPage {
+  margin-top: 5vh;
+
   #actions {
     display: flex;
     align-items: center;
     margin-top: 20px;
+    margin-bottom: 20px;
 
     &:hover {
       .action-icon {
-        display: unset;
+        visibility: visible;
       }
     }
 
     h3 {
       flex: 1;
-      margin-bottom: 20px;
     }
 
     .action-icon {
-      display: none;
+      visibility: hidden;
       cursor: pointer;
       margin-left: 20px;
     }
@@ -29,6 +31,19 @@
   }
 
   #userDetails {
+    width: 100%;
+
+    &.edit-mode {
+      input {
+        width: 93%;
+      }
+
+      td {
+        padding-top: 11px;
+        padding-bottom: 11px;
+      }
+    }
+
     border-spacing: 0 2px;
 
     th {
@@ -40,7 +55,7 @@
     }
 
     td {
-      padding: 10px 40px;
+      padding: 20px 40px;
       background: white;
     }
   }

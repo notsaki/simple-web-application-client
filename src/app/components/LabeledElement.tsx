@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import "./labeled-element.scss";
-import {emit} from "process";
 
 interface LabeledElementProps<T> extends
-	React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement> {
+	Omit<React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>, "htmlFor"> {
 	label: string;
 	error: string | null;
 	value: T;

@@ -7,7 +7,6 @@
 
   input {
     @include clickable("background", white, 2%, 4%);
-    cursor: pointer;
     flex: 1;
   }
 }

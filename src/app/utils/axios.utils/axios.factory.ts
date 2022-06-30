@@ -12,6 +12,7 @@ export function axiosFactory() {
 		transformResponse: dateResponseTransformer,
 		validateStatus: status => status >= 200 && status <= 299,
 		withCredentials: false,
+		timeout: 15000,
 	});
 
 	instance.interceptors.request.use(tokenRequestInterceptor);

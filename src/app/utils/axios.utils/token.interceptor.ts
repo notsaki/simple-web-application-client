@@ -50,6 +50,7 @@ export function tokenResponseInterceptor(error: any) {
 					baseURL: process.env.API_URI,
 					validateStatus: status => status >= 200 && status <= 299,
 					withCredentials: false,
+					timeout: 3,
 				});
 
 				// Re-send the original request with the updated header.

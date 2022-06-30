@@ -5,7 +5,7 @@ import ModalWindow from "./ModalWindow";
 interface FutureDataProps<T> {
 	repository(): Promise<T>;
 	viewFactory(data: T, setData: (data: T) => void): JSX.Element | JSX.Element[];
-	onError(error: Error);
+	onError(error: any);
 	trigger?: any;
 }
 
@@ -14,6 +14,7 @@ interface FutureDataProps<T> {
  */
 export default function FutureData<T>(props: FutureDataProps<T>): JSX.Element {
 	const [data, setData] = useState<T | null>(null);
+	const [error, setError] = useState<any | null>(null);
 
 	useEffect(() => {
 		// To show loading view.
@@ -21,20 +22,20 @@ export default function FutureData<T>(props: FutureDataProps<T>): JSX.Element {
 
 		props.repository()
 			.then(setData)
-			.catch(props.onError);
+			.catch(setError);
 	}, [props.trigger]);
 
-	if(data === null) {
+	if(data === null && error === null) {
 		return (
 			<ModalWindow>
 				<div className={"loading-spinner"} />
 			</ModalWindow>
 		)
-	} else {
-		return (
-			<>
-				{props.viewFactory(data, setData)}
-			</>
-		);
 	}
+
+	return (
+		<>
+			{data !== null ? props.viewFactory(data, setData) : props.onError(error)}
+		</>
+	);
 }

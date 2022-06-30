@@ -1,24 +1,29 @@
-.success {
+.success-wrapper {
   position: absolute;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: green;
-  border-radius: 20px;
-  padding: 5px 20px;
   top: 20px;
-  left: 40%;
+  left: 0;
+  width: 100%;
 
-  span,
-  svg {
-    color: white;
-  }
+  .success {
+    display: flex;
+    align-items: center;
+    background: green;
+    border-radius: 20px;
+    padding: 5px 20px;
 
-  svg {
-    cursor: pointer;
-    user-select: none;
-    margin-left: 20px;
+    span,
+    svg {
+      color: white;
+    }
+
+    svg {
+      cursor: pointer;
+      user-select: none;
+      margin-left: 20px;
+    }
   }
 }

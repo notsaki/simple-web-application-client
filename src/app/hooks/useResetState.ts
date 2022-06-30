@@ -5,7 +5,9 @@ import React, {useEffect, useRef, useState} from "react";
  * @param resetTime the milliseconds after which the state will be reset to null.
  * @returns a usual React state.
  */
-export function useResetState<T>(resetTime: number): [(T | null), React.Dispatch<React.SetStateAction<T | null>>] {
+export function useResetState<T>(
+	resetTime: number = 5000,
+): [(T | null), React.Dispatch<React.SetStateAction<T | null>>] {
 	const [state, setState] = useState<T | null>(null);
 	let timeout = useRef<NodeJS.Timeout>();
 

@@ -12,8 +12,11 @@ import {unwrapValue} from "../utils/event.utils";
 import NullableInput from "../components/NullableInput";
 import SuccessMessage from "../components/SuccessMessage";
 import {useResetState} from "../hooks/useResetState";
+import {useApiMessage} from "../api-message.context";
+import {errorHandler} from "../utils/error-handler";
 
 export default function RegisterUserPage(): JSX.Element {
+	const setApiError = useApiMessage();
 	const userDao = useDependencyContext().daos.userDao;
 
 	const initialDate = () => {
@@ -25,7 +28,7 @@ export default function RegisterUserPage(): JSX.Element {
 	const [name, setName] = useState<string>("");
 	const [surname, setSurname] = useState<string>("");
 	const [gender, setGender] = useState<Gender>(Gender.MALE);
-	const [birthdate, setBirthdate] = useState<Date>(initialDate);
+	const [birthdate, setBirthdate] = useState<Date>(initialDate());
 	const [workAddress, setWorkAddress] = useState<string | null>(null);
 	const [homeAddress, setHomeAddress] = useState<string | null>(null);
 
@@ -58,11 +61,11 @@ export default function RegisterUserPage(): JSX.Element {
 				setName("");
 				setSurname("");
 				setGender(Gender.MALE);
-				setBirthdate(initialDate);
+				setBirthdate(initialDate());
 				setWorkAddress(null);
 				setHomeAddress(null);
 			})
-			.catch(e => setMessage(JSON.stringify(e.message)));
+			.catch(e => setApiError(errorHandler(e)));
 	}
 
 	return (
@@ -74,7 +77,6 @@ export default function RegisterUserPage(): JSX.Element {
 					value={name}
 					onValidation={setValidName}
 					validator={isName}
-					htmlFor={"name"}
 					label={"Name"}
 					error={"Invalid name length (1-64)."}
 				>
@@ -87,7 +89,6 @@ export default function RegisterUserPage(): JSX.Element {
 					/>
 				</LabeledElement>
 				<LabeledElement
-					htmlFor={"surname"}
 					label={"Surname"}
 					error={"Invalid surname length (1-64)."}
 					onValidation={setValidSurname}
@@ -104,7 +105,6 @@ export default function RegisterUserPage(): JSX.Element {
 				</LabeledElement>
 				<LabeledElement
 					label={"Gender"}
-					htmlFor={"gender"}
 					error={"Invalid value. Please select either Male or Female."}
 					validator={isGender}
 					onValidation={setValidGender}
@@ -121,7 +121,6 @@ export default function RegisterUserPage(): JSX.Element {
 				</LabeledElement>
 				<LabeledElement
 					label={"Date of Birth"}
-					htmlFor={"birthdate"}
 					error={"Birthdate should be in the past."}
 					validator={isPastDate}
 					onValidation={setValidBirthdate}
@@ -135,7 +134,6 @@ export default function RegisterUserPage(): JSX.Element {
 				</LabeledElement>
 				<LabeledElement
 					label={"Work Address"}
-					htmlFor={"workAddress"}
 					error={"Invalid address length. Should be between 1-128 characters long or empty."}
 					validator={isValidAddress}
 					onValidation={setValidWorkAddress}
@@ -151,7 +149,6 @@ export default function RegisterUserPage(): JSX.Element {
 				</LabeledElement>
 				<LabeledElement
 					label={"Home Address"}
-					htmlFor={"homeAddress"}
 					error={"Invalid address length. Should be between 1-128 characters long or empty.\""}
 					validator={isValidAddress}
 					onValidation={setValidHomeAddress}

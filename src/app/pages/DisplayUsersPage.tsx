@@ -5,6 +5,7 @@ import FutureData from "../components/FutureData";
 import Button from "../components/Button";
 import { useNavigate } from "react-router";
 import {routes} from "../Router";
+import ErrorPage from "./ErrorPage";
 
 export default function DisplayUsersPage(): JSX.Element {
 	const userDao = useDependencyContext().daos.userDao;
@@ -40,7 +41,7 @@ export default function DisplayUsersPage(): JSX.Element {
 						)}
 					</>
 				)}
-				onError={() => {}}
+				onError={error => <ErrorPage error={error} />}
 			/>
 		</div>
 	);

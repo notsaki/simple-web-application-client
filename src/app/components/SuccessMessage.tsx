@@ -9,9 +9,11 @@ interface SuccessMessageProps {
 
 export default function SuccessMessage(props: SuccessMessageProps): JSX.Element {
 	return (
-		<div className={"success"}>
-			<span>{props.message}</span>
-			<Close onClick={() => props.closer()} />
+		<div className={"success-wrapper"}>
+			<div className={"success"}>
+				<span className={"success-message"}>{props.message}</span>
+				<Close onClick={() => props.closer()} />
+			</div>
 		</div>
 	);
 }

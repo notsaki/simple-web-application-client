@@ -3,11 +3,14 @@ export function errorHandler(error, overrides: { [key: number]: string } = {}): 
 	const responses = {
 		400: "Invalid request.",
 		401: "Session expired.",
+		404: "Requested entity not found.",
 		422: "Invalid data format.",
-		403: "Access to this page is not allowed.",
+		403: "Access not allowed.",
 		500: "Internal server error.",
 		...overrides,
-	}
+	};
+
+	console.log(error.response.status)
 
 	try {
 		return [responses[error.response.status]];
