@@ -23,7 +23,7 @@ export interface UserDao {
 	remove(id: number): Promise<void>;
 
 	/**
-	 * Update a user. Possible status codes: 200, 400, 401, 404, 422.
+	 * Update a user. Possible status codes: 200, 400, 401, 403, 404, 422.
 	 * @param id the user ID.
 	 * @param user User data excluding the ID.
 	 * @returns User The updated user including the ID.
@@ -34,31 +34,36 @@ export interface UserDao {
 	/**
 	 * Retrieve all users. Possible status codes: 200, 401
 	 * @returns UserListItemDto[] A list of users' ID, name and surname.
-	 * @throws For unauthorised request (401), invalid ID format (400), user not found (404), invalid us
+	 * @throws For unauthorised request (401), for invalid CSRF token (403), invalid ID format (400), user not found (404), invalid us
 	 */
 	findAll(): Promise<UserListItemDto[]>;
 
 	/**
-	 * Retrieve user data that matches the specified ID. Possible status codes: 200, 400, 401, 404.
+	 * Retrieve user data that matches the specified ID. Possible status codes: 200, 400, 401, 403, 404.
 	 * @param id The user ID.
-	 * @throws For unauthorised request (401), for invalid ID or JSON body format or gender value (400) and for user not
-	 * found (404), invalid user format (422).
+	 * @throws For unauthorised request (401), for invalid CSRF token (403), for invalid ID or JSON body format or gender
+	 * value (400) and for user not found (404), invalid user format (422).
 	 */
 	findById(id: number): Promise<User>;
 }
 
 export interface AuthDao {
 	/**
-	 * Retrieve a JWT token. Possible status codes: 201, 401.
+	 * Authorise session. Possible status codes: 201, 401, 403.
 	 * @param admin The admin credentials.
-	 * @throws For invalid username or password (401).
+	 * @throws For invalid username or password (401), for invalid CSRF token (403).
 	 */
 	login(admin: Admin): Promise<Jwt>;
 
 	/**
-	 * Retrieve a new JWT token by passing the refresh token.
-	 * @param refreshToken The refresh token object.
-	 * @throws For expired or invalid token (403).
+	 * Retrieve a new CSRF token and check if session is authorised. Possible status codes: 204, 401, 403.
+	 * @throws For invalid CSRF token (403), for unauthorised session (401).
 	 */
-	refresh(refreshToken: RefreshJwt): Promise<Jwt>;
+	token(): Promise<Jwt>;
+
+	/**
+	 * Remove authorisation from session. Possible status codes: 204, 401, 403.
+	 * @throws For invalid CSRF token (403), unauthorised session (401).
+	 */
+	logout(): Promise<void>;
 }

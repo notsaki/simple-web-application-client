@@ -6,10 +6,10 @@ import "./login-page.scss";
 import {useDependencyContext} from "../dependency.context";
 import {errorHandler} from "../utils/error-handler";
 import {useApiMessage} from "../api-message.context";
-import {useAuthContext} from "../user.context";
+import {useSessionStateContext} from "../user.context";
 
 export default function LoginPage(): JSX.Element {
-	const { setToken } = useAuthContext();
+	const setLoggedIn = useSessionStateContext()[1];
 	const authDao = useDependencyContext().daos.authDao;
 	const setApiMessage = useApiMessage();
 
@@ -24,9 +24,8 @@ export default function LoginPage(): JSX.Element {
 		const admin = { username, password };
 		authDao
 			.login(admin)
-			.then(jwt => {
-				setToken(jwt);
-				setApiMessage([]);
+			.then(() => {
+				setLoggedIn(true);
 		})
 			.catch(error => setApiMessage(errorHandler(error, { 401: "Invalid username or password. "})));
 	}

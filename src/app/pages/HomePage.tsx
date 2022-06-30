@@ -3,13 +3,19 @@ import {Link} from "react-router-dom";
 import "./home-page.scss";
 import {routes} from "../Router";
 import Button from "../components/Button";
-import {useAuthContext} from "../user.context";
+import {useSessionStateContext} from "../user.context";
+import {useDependencyContext} from "../dependency.context";
+import {useApiMessage} from "../api-message.context";
 
 export default function HomePage(): JSX.Element {
-	const { clearToken } = useAuthContext();
+	const setLoggedIn = useSessionStateContext()[1];
+	const authDao = useDependencyContext().daos.authDao;
+	const setApiMessage = useApiMessage();
 
 	function logout() {
-		clearToken();
+		authDao.logout()
+			.then(() => setLoggedIn(false))
+			.catch(error => setApiMessage(error));
 	}
 
 	return (

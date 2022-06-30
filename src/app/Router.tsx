@@ -4,9 +4,8 @@ import {Navigate, Route} from "react-router";
 import HomePage from "./pages/HomePage";
 import RegisterUserPage from "./pages/RegisterUserPage";
 import DisplayUsersPage from "./pages/DisplayUsersPage";
-import NotFoundPage from "./pages/NotFoundPage";
 import UserDetailsPage from "./pages/UserDetailsPage";
-import {useAuthContext} from "./user.context";
+import {useSessionStateContext} from "./user.context";
 import LoginPage from "./pages/LoginPage";
 
 export const routes = {
@@ -17,12 +16,12 @@ export const routes = {
 };
 
 export default function Router(): JSX.Element {
-	const { token } = useAuthContext();
+	const loggedIn = useSessionStateContext()[0];
 
 	return (
 		<BrowserRouter>
 			<Routes>
-				{token ? (
+				{loggedIn ? (
 						<>
 							<Route path={routes.home} element={<HomePage />} />
 							<Route path={routes.createUser} element={<RegisterUserPage />} />

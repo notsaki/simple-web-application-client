@@ -46,11 +46,11 @@ export default class HttpClient {
 		return this.send(RequestType.Get, route);
 	}
 
-	public post<TResult>(route: string[], body: object): Promise<TResult> {
+	public post<TResult>(route: string[], body?: object): Promise<TResult> {
 		return this.send(RequestType.Post, route, body);
 	}
 
-	public patch<TResult>(route: string[], body: object): Promise<TResult> {
+	public patch<TResult>(route: string[], body?: object): Promise<TResult> {
 		return this.send(RequestType.Patch, route, body);
 	}
 }
