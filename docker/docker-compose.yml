@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  client:
+    build:
+      target: prod
+      context: ../
+      dockerfile: ./docker/Dockerfile
+      args:
+        - API_URI=${API_URI}
