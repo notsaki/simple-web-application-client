@@ -4,8 +4,8 @@ import ModalWindow from "./ModalWindow";
 
 interface FutureDataProps<T> {
 	repository(): Promise<T>;
-	viewFactory(data: T, setData: (data: T) => void): JSX.Element | JSX.Element[];
-	onError(error: any);
+	onResolve(data: T, setData: (data: T) => void): JSX.Element | JSX.Element[];
+	onRejection(error: any);
 	trigger?: any;
 }
 
@@ -35,7 +35,7 @@ export default function FutureData<T>(props: FutureDataProps<T>): JSX.Element {
 
 	return (
 		<>
-			{data !== null ? props.viewFactory(data, setData) : props.onError(error)}
+			{data !== null ? props.onResolve(data, setData) : props.onRejection(error)}
 		</>
 	);
 }

@@ -15,7 +15,7 @@ export default function DisplayUsersPage(): JSX.Element {
 		<div id={"displayUsersPage"}>
 			<FutureData
 				repository={() => userDao.findAll()}
-				viewFactory={users => (
+				onResolve={users => (
 					<>
 						<h3>Display Users Page</h3>
 						{users.length > 0 ? (
@@ -41,7 +41,7 @@ export default function DisplayUsersPage(): JSX.Element {
 						)}
 					</>
 				)}
-				onError={error => <ErrorPage error={error} />}
+				onRejection={error => <ErrorPage error={error} />}
 			/>
 		</div>
 	);

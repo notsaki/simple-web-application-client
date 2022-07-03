@@ -12,7 +12,7 @@ import {useResetState} from "./hooks/useResetState";
 export default function App(): JSX.Element {
 	const authDao = useDependencyContext().daos.authDao;
 	const [loggedIn, setLoggedIn] = useState<boolean>(false);
-	const [apiMessage, setApiMessage] = useResetState<string[]>(500);
+	const [apiMessage, setApiMessage] = useResetState<string[]>(5000);
 
 	function getToken() {
 		return authDao.token()
@@ -26,7 +26,7 @@ export default function App(): JSX.Element {
 	return (
 		<FutureData
 			repository={() => getToken()}
-			viewFactory={() => (
+			onResolve={() => (
 				<SessionStateProvider value={[loggedIn, setLoggedIn]}>
 					<ApiMessageProvider value={(value: string[]) => setApiMessage(value)}>
 						<div id={"app"}>
@@ -36,7 +36,7 @@ export default function App(): JSX.Element {
 					</ApiMessageProvider>
 				</SessionStateProvider>
 			)}
-			onError={error => <ErrorPage error={error} />}
+			onRejection={error => <ErrorPage error={error} />}
 		/>
 	);
 }

@@ -49,20 +49,21 @@ export interface UserDao {
 
 export interface AuthDao {
 	/**
-	 * Authorise session. Possible status codes: 201, 401, 403.
+	 * Authorise session. API call should return an authenticated JSESSION cookie on success. Possible status codes: 201,
+	 * 401, 403.
 	 * @param admin The admin credentials.
 	 * @throws For invalid username or password (401), for invalid CSRF token (403).
 	 */
-	login(admin: Admin): Promise<Jwt>;
+	login(admin: Admin): Promise<void>;
 
 	/**
-	 * Retrieve a new CSRF token and check if session is authorised. Possible status codes: 204, 401, 403.
+	 * Retrieve a new CSRF token and check if session is authenticated. Possible status codes: 204, 401, 403.
 	 * @throws For invalid CSRF token (403), for unauthorised session (401).
 	 */
-	token(): Promise<Jwt>;
+	token(): Promise<void>;
 
 	/**
-	 * Remove authorisation from session. Possible status codes: 204, 401, 403.
+	 * Remove authentication from session. Possible status codes: 204, 401, 403.
 	 * @throws For invalid CSRF token (403), unauthorised session (401).
 	 */
 	logout(): Promise<void>;

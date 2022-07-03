@@ -7,11 +7,11 @@ export class AuthDaoImpl implements AuthDao {
 
 	public constructor(private httpClient: HttpClient) {}
 
-	public login(admin: Admin): Promise<Jwt> {
-		return this.httpClient.post<Jwt>(["/login"], admin);
+	public login(admin: Admin): Promise<void> {
+		return this.httpClient.post<void>(["/login"], admin);
 	}
 
-	public token(): Promise<Jwt> {
+	public token(): Promise<void> {
 		return this.httpClient.get(["/token"]);
 	}
 

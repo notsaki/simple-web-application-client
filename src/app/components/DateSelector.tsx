@@ -64,7 +64,10 @@ export default function DateSelector(props: DatePickerProps): JSX.Element {
 			/>
 			{selectorOpen && (
 				<DatePicker
-					onChange={date => props.onChange && props.onChange(date)}
+					onChange={date => {
+						setDateString(date.toLocaleDateString());
+						props.onChange && props.onChange(date);
+					}}
 					selected={props.value}
 				/>
 			)}

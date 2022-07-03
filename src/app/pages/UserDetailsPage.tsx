@@ -54,7 +54,7 @@ export default function UserDetailsPage(): JSX.Element {
 			{success && <SuccessMessage message={"User updated successfully!"} closer={() => setSuccess(false)} />}
 			<FutureData
 				repository={() => userDao.findById(id)}
-				viewFactory={(user, setUser) => {
+				onResolve={(user, setUser) => {
 					const setUserWrapper = (prop: keyof User, value: any) => setUser({ ...user, [prop]: value });
 					const setName = (name: string) => setUserWrapper("name", name);
 					const setSurname = (surname: string) => setUserWrapper("surname", surname);
@@ -214,7 +214,7 @@ export default function UserDetailsPage(): JSX.Element {
 						</>
 					);
 				}}
-				onError={error => <ErrorPage error={error} overrides={{ 404: "User not found." }} />}
+				onRejection={error => <ErrorPage error={error} overrides={{ 404: "User not found." }} />}
 			/>
 		</div>
 	)
