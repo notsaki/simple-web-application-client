@@ -6,7 +6,7 @@ import React, {useEffect, useRef, useState} from "react";
  * @returns a usual React state.
  */
 export function useResetState<T>(
-	resetTime: number = 5000,
+	resetTime: number = 5000
 ): [(T | null), React.Dispatch<React.SetStateAction<T | null>>] {
 	const [state, setState] = useState<T | null>(null);
 	let timeout = useRef<NodeJS.Timeout>();

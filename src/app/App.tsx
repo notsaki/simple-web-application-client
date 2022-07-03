@@ -7,17 +7,18 @@ import { ApiMessageProvider } from "./api-message.context";
 import ApiMessage from "./components/ApiMessage";
 import FutureData from "./components/FutureData";
 import ErrorPage from "./pages/ErrorPage";
+import {useResetState} from "./hooks/useResetState";
 
 export default function App(): JSX.Element {
 	const authDao = useDependencyContext().daos.authDao;
 	const [loggedIn, setLoggedIn] = useState<boolean>(false);
-	const [apiMessage, setApiMessage] = useState<string[]>([]);
+	const [apiMessage, setApiMessage] = useResetState<string[]>(500);
 
 	function getToken() {
 		return authDao.token()
 			.then(() => setLoggedIn(true))
 			.catch(error => {
-				if(error.response.status === 403) setLoggedIn(false);
+				if(error.response.status === 403 || error.response.status === 0) setLoggedIn(false);
 				else throw error;
 			});
 	}
@@ -27,9 +28,9 @@ export default function App(): JSX.Element {
 			repository={() => getToken()}
 			viewFactory={() => (
 				<SessionStateProvider value={[loggedIn, setLoggedIn]}>
-					<ApiMessageProvider value={setApiMessage}>
+					<ApiMessageProvider value={(value: string[]) => setApiMessage(value)}>
 						<div id={"app"}>
-							<ApiMessage messages={apiMessage} />
+							<ApiMessage messages={apiMessage ?? []} />
 							<Router />
 						</div>
 					</ApiMessageProvider>

@@ -15,6 +15,10 @@
       flex: 1;
     }
 
+    .required {
+      color: $error-colour;
+    }
+
     .error {
       color: $error-colour;
       font-size: 12px;

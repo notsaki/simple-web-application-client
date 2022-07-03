@@ -26,7 +26,7 @@ export default function DisplayUsersPage(): JSX.Element {
 									<th>Surname</th>
 								</tr>
 								{users.map(user => (
-									<tr key={user.id} onClick={() => window.open(`${routes.userDetails}/${user.id}`, "_blank")}>
+									<tr key={user.id} onClick={() => window.open(`#${routes.userDetails}/${user.id}`, "_blank")}>
 										<td>{user.name}</td>
 										<td>{user.surname}</td>
 									</tr>

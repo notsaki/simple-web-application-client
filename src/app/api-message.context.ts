@@ -6,7 +6,7 @@ import React from "react";
  * endpoints, they should be handled globally.
  */
 
-const apiMessageContext = useContextFactory<React.Dispatch<React.SetStateAction<string[]>>>(undefined!);
+const apiMessageContext = useContextFactory<(value: string[]) => void>(undefined!);
 
 export const useApiMessage = apiMessageContext.useContext;
 export const ApiMessageProvider = apiMessageContext.ContextProvider;

@@ -14,6 +14,7 @@ import SuccessMessage from "../components/SuccessMessage";
 import {useResetState} from "../hooks/useResetState";
 import {useApiMessage} from "../api-message.context";
 import {errorHandler} from "../utils/error-handler";
+import {validation} from "../utils/error.message";
 
 export default function RegisterUserPage(): JSX.Element {
 	const setApiError = useApiMessage();
@@ -78,7 +79,8 @@ export default function RegisterUserPage(): JSX.Element {
 					onValidation={setValidName}
 					validator={isName}
 					label={"Name"}
-					error={"Invalid name length (1-64)."}
+					error={validation.nameLength}
+					required={true}
 				>
 					<input
 						id={"name"}
@@ -90,10 +92,11 @@ export default function RegisterUserPage(): JSX.Element {
 				</LabeledElement>
 				<LabeledElement
 					label={"Surname"}
-					error={"Invalid surname length (1-64)."}
+					error={validation.surnameLength}
 					onValidation={setValidSurname}
 					validator={isName}
 					value={surname}
+					required={true}
 				>
 					<input
 						id={"surname"}
@@ -105,10 +108,11 @@ export default function RegisterUserPage(): JSX.Element {
 				</LabeledElement>
 				<LabeledElement
 					label={"Gender"}
-					error={"Invalid value. Please select either Male or Female."}
+					error={validation.gender}
 					validator={isGender}
 					onValidation={setValidGender}
 					value={gender}
+					required={true}
 				>
 					<DropDown
 						value={gender}
@@ -121,11 +125,12 @@ export default function RegisterUserPage(): JSX.Element {
 				</LabeledElement>
 				<LabeledElement
 					label={"Date of Birth"}
-					error={"Birthdate should be in the past."}
+					error={validation.birthdate}
 					validator={isPastDate}
 					onValidation={setValidBirthdate}
 					value={birthdate}
 					emitOn={"change"}
+					required={true}
 				>
 					<DateSelector
 						value={birthdate}
@@ -134,7 +139,7 @@ export default function RegisterUserPage(): JSX.Element {
 				</LabeledElement>
 				<LabeledElement
 					label={"Work Address"}
-					error={"Invalid address length. Should be between 1-128 characters long or empty."}
+					error={validation.workAddress}
 					validator={isValidAddress}
 					onValidation={setValidWorkAddress}
 					value={workAddress}
@@ -149,7 +154,7 @@ export default function RegisterUserPage(): JSX.Element {
 				</LabeledElement>
 				<LabeledElement
 					label={"Home Address"}
-					error={"Invalid address length. Should be between 1-128 characters long or empty.\""}
+					error={validation.homeAddress}
 					validator={isValidAddress}
 					onValidation={setValidHomeAddress}
 					value={homeAddress}

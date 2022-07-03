@@ -3,18 +3,20 @@ import "./labeled-element.scss";
 
 interface LabeledElementProps<T> extends
 	Omit<React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>, "htmlFor"> {
-	label: string;
+	label?: string;
 	error: string | null;
 	value: T;
 	children: JSX.Element | JSX.Element[];
 	validator?(value: T): boolean;
 	onValidation?(isValid: boolean);
 	emitOn: "blur" | "change";
+	required: boolean;
 }
 
 LabeledElement.defaultProps = {
 	error: null,
 	emitOn: "blur",
+	required: false,
 };
 
 /**
@@ -23,7 +25,7 @@ LabeledElement.defaultProps = {
  */
 export default function LabeledElement<T>(props: LabeledElementProps<T>): JSX.Element {
 	const [error, setError] = useState<string | null>(null);
-	const { children, label, onValidation, validator, value, emitOn, ...labelProps } = props;
+	const { children, label, onValidation, validator, value, emitOn, required, ...labelProps } = props;
 
 	const isValid = !validator ? true : validator(value);
 
@@ -43,7 +45,7 @@ export default function LabeledElement<T>(props: LabeledElementProps<T>): JSX.El
 	return (
 		<div {...emitOnBlurProps} className={"labeled-element"}>
 			<div className={"label"}>
-				<label {...labelProps}>{label}</label>
+				<label {...labelProps}>{label} {props.required && <span className={"required"}>*</span>}</label>
 				{error && <span className={"error"}>{error}</span>}
 			</div>
 			<div className={`input ${error ? "error" : ""}`}>

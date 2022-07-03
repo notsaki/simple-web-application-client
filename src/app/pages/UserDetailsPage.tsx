@@ -20,6 +20,9 @@ import {useResetState} from "../hooks/useResetState";
 import SuccessMessage from "../components/SuccessMessage";
 import {equalUsers} from "../utils/equalUsers";
 import ErrorPage from "./ErrorPage";
+import LabeledElement from "../components/LabeledElement";
+import {isGender, isName, isPastDate, isValidAddress} from "../utils/validators";
+import {validation} from "../utils/error.message";
 
 export default function UserDetailsPage(): JSX.Element {
 	const setApiMessage = useApiMessage();
@@ -59,6 +62,10 @@ export default function UserDetailsPage(): JSX.Element {
 					const setGender = (gender: Gender) => setUserWrapper("gender", gender);
 					const setWorkAddress = (address: string | null) => setUserWrapper("workAddress", address);
 					const setHomeAddress = (address: string | null) => setUserWrapper("homeAddress", address);
+
+					function showRequired() {
+						return editMode && <span className={"required"}>*</span>;
+					}
 
 					if(!editMode) {
 						userRef.current = user;
@@ -102,49 +109,65 @@ export default function UserDetailsPage(): JSX.Element {
 							<table id={"userDetails"} className={editMode ? "edit-mode" : ""}>
 								<tbody>
 								<tr>
-									<th>Name</th>
+									<th>Name {showRequired()}</th>
 									<td>
 										<EditableElement
 											editMode={editMode}
 											readView={user.name}
-											editView={<input value={user.name} onChange={e => setName(unwrapValue(e))} />}
+											editView={
+												<LabeledElement validator={isName} value={user.name} error={validation.nameLength}>
+													<input value={user.name} onChange={e => setName(unwrapValue(e))}/>
+												</LabeledElement>
+											}
 										/>
 									</td>
 								</tr>
 								<tr>
-									<th>Surname</th>
+									<th>Surname {showRequired()}</th>
 									<td>
 										<EditableElement
 											editMode={editMode}
 											readView={user.surname}
-											editView={<input value={user.surname} onChange={e => setSurname(unwrapValue(e))} />}
+											editView={
+												<LabeledElement validator={isName} value={user.surname} error={validation.surnameLength}>
+													<input value={user.surname} onChange={e => setSurname(unwrapValue(e))} />
+												</LabeledElement>
+											}
 										/>
 									</td>
 								</tr>
 								<tr>
-									<th>Gender</th>
+									<th>Gender {showRequired()}</th>
 									<td>
 										<EditableElement
 											editMode={editMode}
 											readView={genderToString(user.gender)}
-											editView={<DropDown
-												value={user.gender}
-												onChange={option => option && setGender(option.value)}
-												options={[
-													{ value: Gender.MALE, label: "Male" },
-													{ value: Gender.FEMALE, label: "Female" },
-												]}
-											/>}
+											editView={
+												<LabeledElement validator={isGender} value={user.gender} error={validation.gender}>
+													<DropDown
+														value={user.gender}
+														onChange={option => option && setGender(option.value)}
+														options={[
+															{ value: Gender.MALE, label: "Male" },
+															{ value: Gender.FEMALE, label: "Female" },
+														]}
+													/>
+												</LabeledElement>
+											}
 										/>
 									</td>
 								</tr>
 								<tr>
-									<th>Birthdate</th>
+									<th>Birthdate {showRequired()}</th>
 									<td>
 										<EditableElement
 											editMode={editMode}
 											readView={user.birthdate.toLocaleDateString()}
-											editView={<DateSelector value={user.birthdate} onChange={date => setBirthdate(date)} />}
+											editView={
+												<LabeledElement validator={isPastDate} value={user.birthdate} error={validation.birthdate}>
+													<DateSelector value={user.birthdate} onChange={date => setBirthdate(date)} />
+												</LabeledElement>
+											}
 										/>
 									</td>
 								</tr>
@@ -154,7 +177,11 @@ export default function UserDetailsPage(): JSX.Element {
 										<EditableElement
 											editMode={editMode}
 											readView={user.workAddress ?? "-"}
-											editView={<NullableInput value={user.workAddress} onChange={e => setWorkAddress(unwrapValue(e))} />}
+											editView={
+												<LabeledElement validator={isValidAddress} value={user.workAddress} error={validation.workAddress}>
+													<NullableInput value={user.workAddress} onChange={e => setWorkAddress(unwrapValue(e))} />
+												</LabeledElement>
+											}
 										/>
 									</td>
 								</tr>
@@ -164,7 +191,11 @@ export default function UserDetailsPage(): JSX.Element {
 										<EditableElement
 											editMode={editMode}
 											readView={user.homeAddress ?? "-"}
-											editView={<NullableInput value={user.homeAddress} onChange={e => setHomeAddress(unwrapValue(e))} />}
+											editView={
+												<LabeledElement validator={isValidAddress} value={user.homeAddress} error={validation.homeAddress}>
+													<NullableInput value={user.homeAddress} onChange={e => setHomeAddress(unwrapValue(e))} />
+												</LabeledElement>
+											}
 										/>
 									</td>
 								</tr>

@@ -8,6 +8,7 @@ export const dateRequestTransformer: AxiosRequestTransformer = data => {
 	if (data instanceof Date) {
 		// The toISOString() method returns the desired format including the time so all needed to be done is to trim
 		// the time.
+		data.setDate(data.getDate() + 1);
 		return data.toISOString().slice(0, 10);
 	}
 

@@ -7,10 +7,11 @@ export function errorHandler(error, overrides: { [key: number]: string } = {}): 
 		422: "Invalid data format.",
 		403: "Access not allowed.",
 		500: "Internal server error.",
+		0: "Unexpected error.",
 		...overrides,
 	};
 
-	console.log(error.response.status)
+	console.log(error.response.status);
 
 	try {
 		return [responses[error.response.status]];

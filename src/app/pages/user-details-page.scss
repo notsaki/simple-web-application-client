@@ -1,3 +1,5 @@
+@import "src/app/styles/consts";
+
 #userDetailsPage {
   margin-top: 5vh;
 
@@ -57,6 +59,10 @@
     td {
       padding: 20px 40px;
       background: white;
+    }
+
+    .required {
+      color: $error-colour;
     }
   }
 }
